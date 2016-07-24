@@ -92,6 +92,7 @@ class IWMan extends EventEmitter {
     intf = intf || 'wlan0';
     let cmd = `ifup ${intf} up`;
     return exec(cmd).then(() => {
+      console.log("ifup " + intf + " successful...");
       this.emit('ifup');
     });
   };
@@ -99,14 +100,16 @@ class IWMan extends EventEmitter {
   ifdown = (intf) => {
     intf = intf || 'wlan0';
     return exec(`ifdown ${intf} down`).then(() => {
+      console.log("ifdown " + intf + " successful...");
       this.emit('ifdown');
     });
   };
 
-  ifrestart = (intf) => {
+  ifreboot = (intf) => {
     intf = intf || 'wlan0';
     return this.ifdown(intf).then(() => this.ifup(intf)).then(() => {
-      this.emit('ifrestart');
+      console.log("ifreboot " + intf + " successful...");
+      this.emit('ifreboot');
     });
   };
 
@@ -114,6 +117,7 @@ class IWMan extends EventEmitter {
     options = options || 'wlan0';
     return new Promise.fromCallback(cb => iwlist.scan(options, cb))
       .then((networks) => {
+        console.log("scan " + intf + " successful...");
         this.emit('scan', networks);
         return networks;
       })
