@@ -1,0 +1,19 @@
+{
+  "interface": "wlan0",
+  "driver": "nl80211",
+  "ap": {
+    "forceReconfigure": true,
+    "interface": "wlan0",
+    "ssid": "rpi-config-ap",
+    "passphrase": "zzzzzzzz",
+    "domain": "rpi.config",
+    "ipAddr": "192.168.44.1",
+    "netmask": "255.255.255.0",
+    "subnetIp": "192.168.44.0",
+    "broadcastAddress": "192.168.44.255",
+    "subnetRange": {
+      "start": "192.168.44.10",
+      "end": "192.168.44.50"
+    }
+  }
+}
