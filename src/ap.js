@@ -13,9 +13,9 @@ class AP extends EventEmitter {
   _process = null;
   _killing = false;
 
-  static stop(intf) {
-    intf = intf || 'wlan0';
-    return exec(`bash ${CMD_CREATE_AP} --stop ${intf}`);
+  static stop(iface) {
+    iface = iface || 'wlan0';
+    return exec(`bash ${CMD_CREATE_AP} --stop ${iface}`);
   }
 
   constructor(name, options) {

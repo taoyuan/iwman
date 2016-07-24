@@ -18,8 +18,8 @@ class IWMan extends EventEmitter {
     super();
   }
 
-  mode = (intf) => {
-    return this.status(intf).then(status => {
+  mode = (iface) => {
+    return this.status(iface).then(status => {
       if (status.ipv4_address && status.ssid) {
         return 'wifi';
       } else {
@@ -28,8 +28,8 @@ class IWMan extends EventEmitter {
     });
   };
 
-  isWiFiMode = (intf) => {
-    return this.mode(intf).then(mode => mode === 'wifi');
+  isWiFiMode = (iface) => {
+    return this.mode(iface).then(mode => mode === 'wifi');
   };
 
   wpa = () => {
@@ -76,11 +76,11 @@ class IWMan extends EventEmitter {
       })
   };
 
-  status = (intf) => {
-    intf = intf || 'wlan0';
+  status = (iface) => {
+    iface = iface || 'wlan0';
     return Promise.all([
-      Promise.fromCallback(cb => iwconfig.status(intf, cb)),
-      Promise.fromCallback(cb => ifconfig.status(intf, cb))
+      Promise.fromCallback(cb => iwconfig.status(iface, cb)),
+      Promise.fromCallback(cb => ifconfig.status(iface, cb))
     ]).then(results => {
       const status = Object.assign({}, ...results);
       this.emit('status', status);
@@ -88,36 +88,37 @@ class IWMan extends EventEmitter {
     });
   };
 
-  ifup = (intf) => {
-    intf = intf || 'wlan0';
-    let cmd = `ifup ${intf} up`;
+  ifup = (iface) => {
+    iface = iface || 'wlan0';
+    let cmd = `ifup ${iface} up`;
     return exec(cmd).then(() => {
-      console.log("ifup " + intf + " successful...");
+      console.log("ifup " + iface + " successful...");
       this.emit('ifup');
     });
   };
 
-  ifdown = (intf) => {
-    intf = intf || 'wlan0';
-    return exec(`ifdown ${intf} down`).then(() => {
-      console.log("ifdown " + intf + " successful...");
+  ifdown = (iface) => {
+    iface = iface || 'wlan0';
+    return exec(`ifdown ${iface} down`).then(() => {
+      console.log("ifdown " + iface + " successful...");
       this.emit('ifdown');
     });
   };
 
-  ifreboot = (intf) => {
-    intf = intf || 'wlan0';
-    return this.ifdown(intf).then(() => this.ifup(intf)).then(() => {
-      console.log("ifreboot " + intf + " successful...");
+  ifreboot = (iface) => {
+    iface = iface || 'wlan0';
+    return this.ifdown(iface).then(() => this.ifup(iface)).then(() => {
+      console.log("ifreboot " + iface + " successful...");
       this.emit('ifreboot');
     });
   };
 
   scan = (options) => {
     options = options || 'wlan0';
+    const iface = typeof options === 'string' ? options : options.iface;
     return new Promise.fromCallback(cb => iwlist.scan(options, cb))
       .then((networks) => {
-        console.log("scan " + intf + " successful...");
+        console.log("scan " + iface + " successful...");
         this.emit('scan', networks);
         return networks;
       })
@@ -164,8 +165,8 @@ class IWMan extends EventEmitter {
     return new AP(name, options);
   };
 
-  stopAP = (intf) => {
-    return AP.stop(intf);
+  stopAP = (iface) => {
+    return AP.stop(iface);
   }
 }
 
