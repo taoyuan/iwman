@@ -55,7 +55,11 @@ class IWMan extends EventEmitter {
 
           next();
         });
-      });
+      })
+      .then(data => {
+        this.emit('detect', data);
+        return data;
+      })
   };
 
   status = (intf) => {

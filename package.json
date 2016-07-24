@@ -27,8 +27,7 @@
     "preversion": "npm run build",
     "test": "mocha --compilers js:babel-register",
     "test:watch": "npm test -- --watch",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "prepublish": "npm run build"
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "devDependencies": {
     "babel-cli": "6.11.4",
