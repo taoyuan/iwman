@@ -10,9 +10,12 @@
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
   "keywords": [
-    "generator",
-    "example",
-    "mnm"
+    "iw",
+    "manager",
+    "wifi",
+    "wireless",
+    "ap",
+    "utility"
   ],
   "repository": "taoyuan/iwman",
   "scripts": {
@@ -24,7 +27,8 @@
     "preversion": "npm run build",
     "test": "mocha --compilers js:babel-register",
     "test:watch": "npm test -- --watch",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "babel-cli": "6.11.4",
