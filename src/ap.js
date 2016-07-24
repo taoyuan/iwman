@@ -2,6 +2,7 @@
 
 import assert from 'assert';
 import fs from 'fs';
+import {exec} from 'child-process-promise';
 import {spawn} from 'child_process';
 import EventEmitter from 'events';
 
@@ -11,6 +12,11 @@ class AP extends EventEmitter {
 
   _process = null;
   _killing = false;
+
+  static stop(intf) {
+    intf = intf || 'wlan0';
+    return exec(`bash ${CMD_CREATE_AP} --stop ${intf}`);
+  }
 
   constructor(name, options) {
     super();

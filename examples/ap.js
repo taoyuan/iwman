@@ -2,7 +2,7 @@
 
 const iwman = require('..');
 
-const ap = iwman.createAP('WIFI-MAN');
+const ap = iwman.startAP('WIFI-MAN');
 
 ap.on('stdout', (data) => output(data, console.log));
 ap.on('stderr', (data) => output(data, console.error));

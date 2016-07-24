@@ -18,6 +18,20 @@ class IWMan extends EventEmitter {
     super();
   }
 
+  mode = (intf) => {
+    return this.status(intf).then(status => {
+      if (status.ipv4_address && status.ssid) {
+        return 'wifi';
+      } else {
+        return 'unknown'
+      }
+    });
+  };
+
+  isWiFiMode = (intf) => {
+    return this.mode(intf).then(mode => mode === 'wifi');
+  };
+
   wpa = () => {
     return new WPAConf(WPA_SUPPLICANT_CONF_FILE);
   };
@@ -142,10 +156,13 @@ class IWMan extends EventEmitter {
     return this.wpa().removeAndSave(ssid);
   };
 
-  createAP = (name, options) => {
+  startAP = (name, options) => {
     return new AP(name, options);
   };
 
+  stopAP = (intf) => {
+    return AP.stop(intf);
+  }
 }
 
 function which(cmd) {
