@@ -12,6 +12,7 @@ class AP extends EventEmitter {
 
   _process = null;
   _killing = false;
+  _started = false;
 
   static stop(iface) {
     iface = iface || 'wlan0';
@@ -50,16 +51,23 @@ class AP extends EventEmitter {
     if (password) args.push(password);
 
     const p = this._process = spawn('bash', args);
+
     p.on('close', () => {
+      this._started = false;
       this._killing = false;
       this._process = null;
       this.emit('close');
     });
+
     p.stdout.on('data', (data) => {
       if (Buffer.isBuffer(data)) {
         data = data.toString('utf-8');
       }
       this.emit('stdout', data);
+      if (/AP-ENABLED/.test(data)) {
+        this._started = true;
+        this.emit('started');
+      }
     });
 
     p.stderr.on('data', (data) => {
@@ -68,6 +76,10 @@ class AP extends EventEmitter {
       }
       this.emit('stderr', data);
     });
+  }
+
+  isStarted() {
+    return this._started;
   }
 
   isKilling() {

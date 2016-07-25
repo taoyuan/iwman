@@ -7,8 +7,12 @@ const ap = iwman.startAP('WIFI-MAN');
 ap.on('stdout', (data) => output(data, console.log));
 ap.on('stderr', (data) => output(data, console.error));
 
+ap.on('started', () => {
+  console.log('-- Started');
+});
+
 ap.on('close', () => {
-  console.log('Closed');
+  console.log('-- Closed');
 });
 
 function output(data, log) {
