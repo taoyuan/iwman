@@ -5,6 +5,7 @@ import fs from 'fs';
 import {exec} from 'child-process-promise';
 import {spawn} from 'child_process';
 import EventEmitter from 'events';
+import Promise from 'bluebird';
 
 const CMD_CREATE_AP = `${__dirname}/../create_ap/create_ap`;
 
@@ -92,10 +93,13 @@ class AP extends EventEmitter {
 
   kill() {
     if (this._process && !this._killing) {
-      this._killing = true;
-      this._process.kill();
-      return true;
+      return new Promise(resolve => {
+        this.once('close', () => resolve());
+        this._killing = true;
+        this._process.kill();
+      });
     }
+    return Promise.resolve();
   }
 
 }
