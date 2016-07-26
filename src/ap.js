@@ -20,27 +20,30 @@ class AP extends EventEmitter {
     return exec(`bash ${CMD_CREATE_AP} --stop ${iface}`);
   }
 
-  constructor(name, options) {
+  constructor(options) {
     super();
-    this._create(name, options);
+    if (typeof options === 'string') {
+      options = {name: options};
+    }
+    options = options || {};
+    this._create(options);
   }
 
-  _create(name, options) {
-    assert(name, '"name" is required');
+  _create(options) {
     assert(fs.existsSync(CMD_CREATE_AP), '"create_ap" has not been found in ' + CMD_CREATE_AP);
     options = {
-      wifiInterface: 'wlan0',
+      wlan: 'wlan0',
       gateway: '192.168.1.1',
       ...options
     };
-    const {gateway, wifiInterface, inetInterface, password} = options;
+    const {name, gateway, wlan, inetInterface, password} = options;
 
     const args = [CMD_CREATE_AP, '-n', '--no-virt'];
     if (gateway) args.push(...['-g', gateway]);
     //...
 
     // wifi-interface
-    args.push(wifiInterface);
+    args.push(wlan);
 
     // interface-with-internet
     if (inetInterface) args.push(inetInterface);
