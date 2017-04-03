@@ -21,7 +21,7 @@ function create(name, options) {
   }
   options = Object.assign({
     wlan: 'wlan0',
-    gateway: '192.168.1.1',
+    gateway: '10.0.0.1',
   }, options);
   name = name || options.name;
   const {gateway, wlan, eth, password} = options;
