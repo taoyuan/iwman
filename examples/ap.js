@@ -2,16 +2,16 @@
 
 const iwman = require('..');
 
-const ap = iwman.startAP('WIFI-MAN');
+const process = iwman.createAP('iwman');
 
-ap.on('stdout', (data) => output(data, console.log));
-ap.on('stderr', (data) => output(data, console.error));
+process.on('stdout', data => output(data, console.log));
+process.on('stderr', data => output(data, console.error));
 
-ap.on('started', () => {
+process.on('started', () => {
   console.log('-- Started');
 });
 
-ap.on('close', () => {
+process.on('close', () => {
   console.log('-- Closed');
 });
 
@@ -19,9 +19,11 @@ function output(data, log) {
   data.trim().split(/[\n\r]/).forEach(line => log(`[ap] ${line}`));
 }
 
-function cleanup() {
-  ap.kill()
-;}
+function cleanup(signal) {
+  console.log(signal);
+  process.kill();
+}
 
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
+process.on('SIGINT', () => cleanup('SIGINT'));
+process.on('SIGTERM', () => cleanup('SIGTERM'));
+process.on('exit', () => cleanup('exit'));

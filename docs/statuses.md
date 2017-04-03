@@ -1,6 +1,6 @@
 Status WiFi
 
-```json
+```js
 { interface: 'wlan0',
   access_point: '04:a1:51:da:60:bd',
   frequency: 2.412,
@@ -23,7 +23,7 @@ Status WiFi
 
 Status AP
 
-```json
+```js
 { interface: 'wlan0',
   ieee: '802.11bgn',
   mode: 'master',
@@ -41,7 +41,7 @@ Status AP
 
 Status Offline
 
-```json
+```js
 { interface: 'wlan0',
   ieee: '802.11bgn',
   mode: 'master',
@@ -59,7 +59,7 @@ Status Offline
 
 Status Other
 
-```json
+```js
 { interface: 'wlan0',
   access_point: '04:a1:51:da:60:bd',
   frequency: 2.412,

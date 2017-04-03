@@ -13,7 +13,7 @@ npm install --save iwman
 ## Usage
 
 ```js
-import iwman from 'iwman'
+import iwman from 'iwman';
 
 iwman.status().then(console.log);
 ```
