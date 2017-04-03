@@ -143,7 +143,7 @@ class IWMan extends EventEmitter {
       security,
       hidden,
     } = creds;
-    const options = _.omit(creds, ['ssid', 'password', 'encryption', 'security', 'hidden']);
+    const options = {};
     if (encryption && auth === 'PSK') {
       options.key_mgmt = 'WPA-PSK';
       options.proto = security === 'WPA2' ? 'WPA2' : 'WPA';
