@@ -91,27 +91,32 @@ class IWMan extends EventEmitter {
 
   ifup(iface) {
     iface = iface || 'wlan0';
-    let cmd = `ifup ${iface} up`;
-    return exec(cmd).then(() => {
-      console.log("ifup " + iface + " successful...");
-      this.emit('ifup');
-    });
+    return PromiseA.try(() => exec(`ifup ${iface} up`))
+      .then(exec(`ifconfig ${iface} up`))
+      .then(() => {
+        console.log("ifup " + iface + " successful...");
+        this.emit('ifup');
+      });
   };
 
   ifdown(iface) {
     iface = iface || 'wlan0';
-    return exec(`ifdown ${iface} down`).then(() => {
-      console.log("ifdown " + iface + " successful...");
-      this.emit('ifdown');
-    });
+    return PromiseA.try(() => exec(`ifdown ${iface} down`))
+      .then(exec(`ifconfig ${iface} down`))
+      .then(() => {
+        console.log("ifdown " + iface + " successful...");
+        this.emit('ifdown');
+      });
   };
 
-  ifreboot(iface) {
+  ifreboot(iface, delay = 1000) {
     iface = iface || 'wlan0';
-    return this.ifdown(iface).then(() => this.ifup(iface)).then(() => {
-      console.log("ifreboot " + iface + " successful...");
-      this.emit('ifreboot');
-    });
+    return this.ifdown(iface)
+      .delay(delay)
+      .then(() => this.ifup(iface)).then(() => {
+        console.log("ifreboot " + iface + " successful...");
+        this.emit('ifreboot');
+      });
   };
 
   scan(options) {
