@@ -1,4 +1,7 @@
 # iwman
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/taoyuan/iwman.svg)](https://greenkeeper.io/)
+
 [![NPM version][npm-image]][npm-url]
 [![Downloads][download-image]][npm-url]
 
