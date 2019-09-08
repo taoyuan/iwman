@@ -30,11 +30,11 @@
     "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.2.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.2.0",
-    "rimraf": "^2.6.1",
-    "standard": "^9.0.2"
+    "mocha": "^6.2.0",
+    "rimraf": "^3.0.0",
+    "standard": "^14.1.0"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
